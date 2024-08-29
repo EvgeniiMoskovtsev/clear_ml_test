@@ -61,11 +61,14 @@ def main():
     print("PyTorch version:", torch.__version__)
     print("Torchvision version:", torchvision.__version__)
 
-    device = torch.device("mps")
-    print("Using Device: ", device)
+    cuda_available = torch.cuda.is_available()
+    print(f"CUDA доступна: {cuda_available}")
+    
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    print('Using device:', device)
 
     train_loader = torch.utils.data.DataLoader(
-        datasets.MNIST('../data', train=True, download=True,
+        datasets.MNIST('../data', train=True,
                        transform=transforms.Compose([
                            transforms.ToTensor(),
                            transforms.Normalize((0.1307,), (0.3081,))
