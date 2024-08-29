@@ -1,3 +1,6 @@
+import os
+import urllib.request
+import tarfile
 import torch
 from torch import nn, optim
 import torch.nn.functional as F
