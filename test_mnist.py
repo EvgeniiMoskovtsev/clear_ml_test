@@ -56,6 +56,19 @@ def test(model, device, test_loader):
         test_loss, correct, len(test_loader.dataset),
         100. * correct / len(test_loader.dataset)))
 
+def download_mnist():
+    url = "http://www.di.ens.fr/~lelarge/MNIST.tar.gz"
+    filename = "MNIST.tar.gz"
+    os.makedirs('../data', exist_ok=True)
+    print(f"Downloading MNIST dataset...")
+    urllib.request.urlretrieve(url, f'../data/{filename}')
+    print("Extracting files...")
+    with tarfile.open(f'../data/{filename}', 'r:gz') as tar:
+        tar.extractall(path='../data')
+    os.remove(f'../data/{filename}')
+    print("Download and extraction completed.")
+    
+
 
 def main():
     print("PyTorch version:", torch.__version__)
@@ -66,6 +79,9 @@ def main():
     
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print('Using device:', device)
+
+    download_mnist()
+    print("Dataset MNIST loaded successfully.")
 
     train_loader = torch.utils.data.DataLoader(
         datasets.MNIST('../data', train=True,
