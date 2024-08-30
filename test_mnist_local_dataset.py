@@ -61,7 +61,7 @@ def test(model, device, test_loader):
         100. * correct / len(test_loader.dataset)))
 
 def download_mnist():
-    dataset_name = "MNISTDataset_2"
+    dataset_name = "MNISTDataset_3"
     dataset_project = "TestProject"
 
     dataset_path = Dataset.get(
@@ -70,7 +70,6 @@ def download_mnist():
         alias="MNIST dataset"
     ).get_local_copy()
     
-    dataset_path += "/MNIST_2"
 
     from os import walk
 
