@@ -70,10 +70,16 @@ def download_mnist():
         alias="MNIST dataset"
     ).get_local_copy()
     
-    dataset_name = "MNISTDataset_2"
-    dataset_project = "TestProject"
-    
     dataset_path += "/MNIST_2"
+
+    from os import walk
+
+    f = []
+    for (dirpath, dirnames, filenames) in walk(dataset_path):
+        f.extend(dirnames)
+        f.extend(filenames)
+    
+    print("Dataset folder: ", f)
     return dataset_path
     
 
