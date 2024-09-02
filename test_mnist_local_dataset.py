@@ -45,7 +45,7 @@ def train(model, device, train_loader, optimizer, epoch):
                 epoch, batch_idx * len(data), len(train_loader.dataset),
                        100. * batch_idx / len(train_loader), loss.item()))
 
-def test(args, model, device, test_loader, epoch):
+def test(model, device, test_loader, epoch):
     model.eval()
     test_loss = 0
     correct = 0
@@ -125,7 +125,7 @@ def main():
 
     for epoch in range(1, EPOCHS + 1):
         train(model, device, train_loader, optimizer, epoch)
-        test(args, model, device, test_loader, epoch)
+        test(model, device, test_loader, epoch)
         
     torch.save(model.state_dict(), os.path.join(gettempdir(), "mnist_cnn.pt"))
     
