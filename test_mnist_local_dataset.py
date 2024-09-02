@@ -7,6 +7,7 @@ from torch import nn, optim
 import torch.nn.functional as F
 import torchvision
 from torchvision import datasets, transforms
+from clearml import Task, Logger
 
 EPOCHS = 5
 
@@ -38,9 +39,11 @@ def train(model, device, train_loader, optimizer, epoch):
         loss.backward()
         optimizer.step()
         if batch_idx % 10 == 0:
+            Logger.current_logger().report_scalar(
+                "train", "loss", iteration=(epoch * len(train_loader) + batch_idx), value=loss.item())
             print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
                 epoch, batch_idx * len(data), len(train_loader.dataset),
-                100. * batch_idx / len(train_loader), loss.item()))
+                       100. * batch_idx / len(train_loader), loss.item()))
 
 def test(model, device, test_loader):
     model.eval()
@@ -56,6 +59,10 @@ def test(model, device, test_loader):
 
     test_loss /= len(test_loader.dataset)
 
+    Logger.current_logger().report_scalar(
+        "test", "loss", iteration=epoch, value=test_loss)
+    Logger.current_logger().report_scalar(
+        "test", "accuracy", iteration=epoch, value=(correct / len(test_loader.dataset)))
     print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)\n'.format(
         test_loss, correct, len(test_loader.dataset),
         100. * correct / len(test_loader.dataset)))
@@ -84,6 +91,8 @@ def download_mnist():
 
 
 def main():
+    task = Task.init(project_name='test', task_name='PyTorch MNIST train filserver dataset')
+    
     print("PyTorch version:", torch.__version__)
     print("Torchvision version:", torchvision.__version__)
 
@@ -117,6 +126,8 @@ def main():
     for epoch in range(1, EPOCHS + 1):
         train(model, device, train_loader, optimizer, epoch)
         test(model, device, test_loader)
-
+        
+    torch.save(model.state_dict(), os.path.join(gettempdir(), "mnist_cnn.pt"))
+    
 if __name__ == "__main__":
     main()
