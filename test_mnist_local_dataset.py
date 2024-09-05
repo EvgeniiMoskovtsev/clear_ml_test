@@ -94,7 +94,9 @@ def download_mnist():
 def main():
     # task = Task.init(project_name='test', task_name='PyTorch MNIST train filserver dataset', output_uri="https://clearml-stage-ml-fileserver.zvq.me")
     # task = Task.init(project_name='test', task_name='PyTorch MNIST train filserver dataset', output_uri=True)
-    # task = Task.init(project_name='test', task_name='PyTorch MNIST train filserver dataset')
+    task = Task.init(project_name='test', task_name='PyTorch MNIST train filserver dataset')
+    output_model = OutputModel(task=task, framework="PyTorch")
+    output_model.set_upload_destination(uri="https://clearml-stage-ml-fileserver.zvq.me")
     
     print("PyTorch version:", torch.__version__)
     print("Torchvision version:", torchvision.__version__)
@@ -130,7 +132,9 @@ def main():
         train(model, device, train_loader, optimizer, epoch)
         test(model, device, test_loader, epoch)
         
-    # torch.save(model.state_dict(), os.path.join(gettempdir(), "mnist_cnn.pt"))
+    tmp_dir = os.path.join(gettempdir(), "mnist_cnn.pt")
+    torch.save(model.state_dict(), tmp_dir)
+    output_model.update_weights(weights_filename=tmp_dir)
     
 if __name__ == "__main__":
     main()
