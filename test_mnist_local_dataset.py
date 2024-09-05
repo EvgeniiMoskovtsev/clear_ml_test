@@ -93,7 +93,7 @@ def download_mnist():
 
 def main():
     # task = Task.init(project_name='test', task_name='PyTorch MNIST train filserver dataset', output_uri="https://clearml-stage-ml-fileserver.zvq.me")
-    task = Task.init(project_name='test', task_name='PyTorch MNIST train filserver dataset', output_uri=True)
+    # task = Task.init(project_name='test', task_name='PyTorch MNIST train filserver dataset', output_uri=True)
     # task = Task.init(project_name='test', task_name='PyTorch MNIST train filserver dataset')
     
     print("PyTorch version:", torch.__version__)
