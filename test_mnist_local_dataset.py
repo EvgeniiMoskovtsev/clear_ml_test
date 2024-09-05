@@ -10,7 +10,7 @@ from torchvision import datasets, transforms
 from clearml import Task, Logger
 from tempfile import gettempdir
 
-EPOCHS = 5
+EPOCHS = 1
 
 class Net(nn.Module):
     def __init__(self):
