@@ -1,9 +1,3 @@
-sleep = True
-if sleep:
-  import time
-  time.sleep(3600)
-
-
 try:
     import joblib
 except ImportError:
