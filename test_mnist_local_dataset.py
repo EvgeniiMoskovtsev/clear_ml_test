@@ -7,7 +7,7 @@ from torch import nn, optim
 import torch.nn.functional as F
 import torchvision
 from torchvision import datasets, transforms
-from clearml import Task, Logger
+from clearml import Task, Logger, OutputModel
 from tempfile import gettempdir
 
 EPOCHS = 1
